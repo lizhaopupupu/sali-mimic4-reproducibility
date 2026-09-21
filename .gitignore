@@ -1,0 +1,25 @@
+# No data, ever. This repository must never contain patient-level or derived data.
+*.csv
+*.tsv
+*.parquet
+*.xlsx
+*.dta
+*.sav
+*.rds
+*.pickle
+*.pkl
+data/
+output/
+results/
+
+# OS / editor noise
+.DS_Store
+Thumbs.db
+*.swp
+__pycache__/
+.idea/
+.vscode/
+
+# Local notes
+notes/
+*.local.md
