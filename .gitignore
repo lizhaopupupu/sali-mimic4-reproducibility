@@ -16,6 +16,9 @@ data/
 output/
 results/
 
+# ...but the frozen model objects in models/ ARE meant to be published.
+!models/*.pkl
+
 # Input and output trees used by the analysis scripts (never commit these).
 01_原始数据/
 03_运行结果/

@@ -58,7 +58,9 @@ Two things are here:
 | `analysis/dual_cohort/compute_step3.py` | External AUCs with bootstrap CIs, comparator scores, decision-curve and classification metrics, SHAP ranking stability. |
 | `analysis/dual_cohort/compute_step4.py` | Corrected Sun–Xu DeLong test, fair-baseline logistic regression, 14-day recalibration, DCA threshold range. |
 | `analysis/dual_cohort/make_suppl_tables.py` | Writes Supplementary Tables S5 / S6 / S7 as `.docx`. |
+| `analysis/dual_cohort/freeze_models.py` | Fits the three final models and writes the frozen objects to `models/`. |
 | `analysis/dual_cohort/score_definition_impact.py` | Recomputes every number in `docs/03`: what each SOFA and MELD-Na definition gives, and which one produced the published results. |
+| `models/` | Frozen model objects, preprocessing parameters and a model card. **Read `models/MODEL_CARD.json` first.** |
 | `analysis/single_center/run_single_center_v3.py` | Single-centre pipeline: the three selected models with AUC, calibration, DCA and comparator tests. |
 | `analysis/single_center/prep_fig_data.py` | Figure data: ROC / calibration / DCA coordinates plus the 100-pipeline AUC matrix. |
 | `analysis/single_center/extract_shap_values.py` | Per-sample SHAP values (KernelExplainer for the naive-Bayes models). |
@@ -164,7 +166,7 @@ version but have changed between versions.
 | `01_原始数据/MIMIC队列/*.xlsx` | Derived from MIMIC-IV, released under the PhysioNet Credentialed Health Data License 1.5.0. Redistribution is prohibited — obtain MIMIC-IV from PhysioNet after credentialing. |
 | `01_原始数据/单中心队列/*.xlsx` | Patient-level data from Xiaogan Central Hospital; release requires institutional approval. |
 | `03_运行结果/shap_values.json`, `fig_data.json` | Contain per-patient feature values, predicted probabilities and outcomes for the validation set. Patient-level. |
-| Frozen model objects (`.pkl` / `.joblib`) | **No such file exists** — none was ever produced. The models are fully reconstructible from `analysis/dual_cohort/reproduce_models.py`, which states the estimators, hyperparameters and preprocessing explicitly. |
+| A faithful frozen 7-day model object | None was ever produced. The objects in `models/` were refitted here from the **archived** development export, which has `vent`/`vaso`/`crrt` constant at zero; the 7-day LightGBM model therefore differs from the published one (external AUC 0.760 against 0.720). See `models/MODEL_CARD.json` and AUDIT.md section 3. |
 
 The manuscript's Data Availability Statement records that items not publishable here are
 available from the corresponding author on reasonable request.

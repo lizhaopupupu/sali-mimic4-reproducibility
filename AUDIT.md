@@ -126,22 +126,38 @@ real treatment variables.
 | `03_运行结果/fig_data.json` | Contains per-patient predicted probabilities, outcomes and score values for the validation set. Patient-level; not publishable. |
 | Any frozen model object (`.pkl`, `.joblib`) | **No such file exists anywhere in the source packages.** See below. |
 
-## 3. Frozen model object
+## 3. Frozen model objects
 
 The manuscript's Data Availability Statement offers a *"frozen 7-day LightGBM model
-object"* on request. **No serialised model object exists** — the archived packages
-contain only scripts and data, and no `.pkl` / `.joblib` / `.sav` / `.h5` file could be
-found in any of them.
+object"* on request. **No serialised model object existed in the archived packages** —
+they contain only scripts and data, and no `.pkl` / `.joblib` / `.sav` / `.h5` file could
+be found in any of them.
 
-* The model is fully reconstructible from this repository: the estimator and its
-  hyperparameters are explicit in `dual_cohort/reproduce_models.py` (`LGBMClassifier`,
-  `random_state=42`) and the preprocessing (training-set median imputation, training-set
-  mean/SD standardisation) is in the same file.
-* A model object regenerated from the **archived** extract would be trained with
-  `vent`/`vaso`/`crrt` all zero, i.e. it would not be the model behind the published
-  results. Generating one and presenting it as the manuscript's model would be misleading.
-* Recommendation: keep the model object on request, and point the Data Availability
-  Statement at this repository for the code and preprocessing parameters.
+The objects in `models/` were therefore **generated from this repository**, by
+`analysis/dual_cohort/freeze_models.py`, using the Supplementary Table S4 hyperparameters
+and the preprocessing described in Methods Section 2.9 (`random_state=42` throughout):
+
+| Object | Internal validation AUC | External AUC | Published (val / external) |
+|---|---|---|---|
+| `sali_7d_lightgbm.pkl` | 0.828 | 0.760 | 0.840 / 0.720 |
+| `sali_14d_logreg.pkl` | 0.831 | 0.718 | 0.841 / 0.717 |
+| `sali_28d_logreg.pkl` | 0.842 | 0.760 | 0.850 / 0.763 |
+
+`preprocessing_parameters.json` holds the imputation medians and scaling means/SDs;
+`MODEL_CARD.json` holds the hyperparameters, the feature order and the provenance.
+
+**Read the provenance block in `MODEL_CARD.json` before using them.** They were refitted
+from the archived development export, in which `vent`, `vaso` and `crrt` are constant at
+zero (finding B4). They are therefore **not** the models that produced the published
+performance estimates. The 14- and 28-day logistic regressions are unaffected by that
+defect and reproduce the published external AUCs to within 0.003; the **7-day LightGBM
+model is affected and differs by 0.040** (0.760 here against 0.720 published), because it
+is the only one of the three that makes use of the three defective indicators.
+
+The Data Availability Statement must not claim that the deposited objects produced the
+reported predictions. Regenerating faithful objects requires running
+`code/MIMIC4_SALI_cohort_extraction.sql` against MIMIC-IV v3.1 and re-running
+`freeze_models.py`.
 
 ## 4. Files changed during the audit
 

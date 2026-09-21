@@ -1,0 +1,91 @@
+{
+  "title": "Frozen SALI mortality models",
+  "repository": "https://github.com/lizhaopupupu/sali-mimic4-reproducibility",
+  "generated_by": "analysis/dual_cohort/freeze_models.py",
+  "random_state": 42,
+  "features": [
+    "age",
+    "gender",
+    "max_temp",
+    "hr",
+    "rr",
+    "map",
+    "dbp",
+    "spo2",
+    "wbc",
+    "rbc",
+    "hb",
+    "hct",
+    "plt",
+    "alt",
+    "ast",
+    "alp",
+    "alb",
+    "tbil",
+    "inr",
+    "bun",
+    "crea",
+    "na",
+    "k",
+    "ca",
+    "cl",
+    "hco3",
+    "glu",
+    "lac",
+    "vent",
+    "vaso",
+    "crrt"
+  ],
+  "preprocessing": "median imputation with the training-set median, then z-score standardisation with the training-set mean and SD; both fitted on the MIMIC-IV training set only and applied unchanged to the validation and external cohorts.",
+  "models": {
+    "7d": {
+      "estimator": "lightgbm.LGBMClassifier",
+      "params": {
+        "boosting_type": "gbdt",
+        "class_weight": "balanced",
+        "colsample_bytree": 1.0,
+        "learning_rate": 0.05,
+        "max_depth": 3,
+        "min_child_samples": 20,
+        "n_estimators": 200,
+        "num_leaves": 31,
+        "objective": "binary",
+        "random_state": 42,
+        "verbose": -1
+      },
+      "object": "sali_7d_lightgbm.pkl",
+      "internal_validation_auc": 0.828,
+      "external_auc": 0.76
+    },
+    "14d": {
+      "estimator": "sklearn.linear_model.LogisticRegression",
+      "params": {
+        "C": 0.1,
+        "class_weight": "balanced",
+        "max_iter": 1000,
+        "random_state": 42
+      },
+      "object": "sali_14d_logreg.pkl",
+      "internal_validation_auc": 0.831,
+      "external_auc": 0.718
+    },
+    "28d": {
+      "estimator": "sklearn.linear_model.LogisticRegression",
+      "params": {
+        "C": 0.1,
+        "class_weight": "balanced",
+        "max_iter": 1000,
+        "random_state": 42
+      },
+      "object": "sali_28d_logreg.pkl",
+      "internal_validation_auc": 0.842,
+      "external_auc": 0.76
+    }
+  },
+  "PROVENANCE": [
+    "These objects were refitted from the archived development export held for this project.",
+    "In that export the columns vent, vaso and crrt are constant at zero, which contradicts the 71.2% / 60.1% / 14.5% reported in Table 1.",
+    "These objects are therefore NOT the models that produced the performance estimates published in the manuscript, and the AUCs obtained from them differ from the published ones (7-day external AUC here 0.760 against 0.720 published).",
+    "To regenerate models from a correct export, run code/MIMIC4_SALI_cohort_extraction.sql against MIMIC-IV v3.1 and then re-run this script."
+  ]
+}
