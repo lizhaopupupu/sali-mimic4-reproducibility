@@ -3,14 +3,23 @@
 *.tsv
 *.parquet
 *.xlsx
+*.xls
 *.dta
 *.sav
 *.rds
 *.pickle
 *.pkl
+*.joblib
+*.h5
+*.pth
 data/
 output/
 results/
+
+# Input and output trees used by the analysis scripts (never commit these).
+01_原始数据/
+03_运行结果/
+submission/
 
 # OS / editor noise
 .DS_Store
