@@ -19,14 +19,3 @@ AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
 LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
-
----
-
-NOTE ON PROVENANCE
-
-This repository contains a RECONSTRUCTION of a cohort-extraction rule set, written
-against the raw MIMIC-IV v3.1 source tables during peer review. It is not the script that
-produced the originally submitted export. See the "Provenance" section of README.md.
-
-This repository contains no patient-level or derived data. Use of MIMIC-IV requires the
-PhysioNet credentialed access agreement.
