@@ -58,13 +58,36 @@ comparator score is challenged**, because a reviewer running `reproduce_models.p
 get different SOFA AUCs than the ones in the manuscript. The three definitions are not
 interchangeable. Warning comments have been added at each definition.
 
+**Decision (2026-09-20): the definitions were deliberately NOT harmonised.** They were
+quantified instead — see [`docs/03_comparator_score_definitions.md`](docs/03_comparator_score_definitions.md),
+every number in which is reproducible with `analysis/dual_cohort/score_definition_impact.py`.
+In short: on the external cohort the 1-point variant gives SOFA AUCs of 0.692 / 0.654 /
+0.668 against 0.750 / 0.726 / 0.746 for the standard 4-point rule, and refitting the
+models reproduces the manuscript's DeLong P-values to three decimal places under the
+1-point variant (0.086 vs 0.088 at 14 days; 0.012 vs 0.011 at 28 days) but gives
+P = 0.81 and P = 0.67 under the standard rule. Harmonising onto standard SOFA would
+therefore remove the 28-day superiority claim. The score used for the published
+comparison must be spelled out in the Methods.
+
+One reason the standard rule cannot simply be applied: `vaso` is a **binary,
+non-dose-graded** indicator, whereas standard SOFA awards its 4 vasopressor points only
+above a dose threshold. That is a legitimate reason not to award 4 points — but it is a
+reason that has to be written down, not one that can be left implicit in the code.
+
 ### B2 — MELD-Na is computed with two different sodium references **[B] — disclosed**
 
 * `compute_step3.py` / `compute_step4.py`: `1.32 * (137 - Na) - 0.033 * MELD * (137 - Na)`, Na clamped to 125–137 — the 2016 OPTN formula.
 * `single_center/run_single_center_v3.py`: `(135 - Na)`, Na clamped to 125–140 — the older MELD-Na form.
 
-Both are defensible historical variants, but they give different scores, and the two
-manuscripts therefore do not report the same MELD-Na. Should be declared.
+Both are defensible historical variants, but they give different scores — in this cohort
+they differ for **all 229** patients (mean 21.9 vs 18.1) — and the two manuscripts
+therefore do not report the same MELD-Na. Should be declared.
+
+Quantified alongside B1 in
+[`docs/03_comparator_score_definitions.md`](docs/03_comparator_score_definitions.md): on
+the external cohort the Na-137 form gives AUCs of 0.646 / 0.619 / 0.641 (manuscript
+0.656 / 0.622 / 0.636) and the Na-135 form 0.601 / 0.590 / 0.616. **Also not harmonised**,
+for the same reason as B1.
 
 ### B3 — `run_single_center_v3.py::delong_p()` is not a DeLong test **[B] — disclosed**
 

@@ -22,6 +22,12 @@ Two things are here:
 > including a broken mid-rank function that invalidates the DeLong P-values in
 > `compute_step3.py`, three different definitions of "modified SOFA", and a personal
 > filesystem path that was removed from `prep_fig_data.py`.
+>
+> **The comparator scores are NOT harmonised, on purpose.** Three SOFA definitions and two
+> MELD-Na definitions remain in the code. Harmonising them onto the standard SOFA would
+> change Table 3 and remove the 28-day superiority claim (DeLong P 0.011 → 0.67). They are
+> documented and quantified in [`docs/03_comparator_score_definitions.md`](docs/03_comparator_score_definitions.md)
+> instead.
 
 ---
 
@@ -52,11 +58,13 @@ Two things are here:
 | `analysis/dual_cohort/compute_step3.py` | External AUCs with bootstrap CIs, comparator scores, decision-curve and classification metrics, SHAP ranking stability. |
 | `analysis/dual_cohort/compute_step4.py` | Corrected Sun–Xu DeLong test, fair-baseline logistic regression, 14-day recalibration, DCA threshold range. |
 | `analysis/dual_cohort/make_suppl_tables.py` | Writes Supplementary Tables S5 / S6 / S7 as `.docx`. |
+| `analysis/dual_cohort/score_definition_impact.py` | Recomputes every number in `docs/03`: what each SOFA and MELD-Na definition gives, and which one produced the published results. |
 | `analysis/single_center/run_single_center_v3.py` | Single-centre pipeline: the three selected models with AUC, calibration, DCA and comparator tests. |
 | `analysis/single_center/prep_fig_data.py` | Figure data: ROC / calibration / DCA coordinates plus the 100-pipeline AUC matrix. |
 | `analysis/single_center/extract_shap_values.py` | Per-sample SHAP values (KernelExplainer for the naive-Bayes models). |
 | `docs/01_index_hospitalisation_restriction.md` | Executable definition of the index-hospitalisation restriction (one record per patient; deaths must fall inside the index admission). |
 | `docs/02_extraction_notes.md` | What the SQL reproduces, side by side with the published counts, and which reviewer comment each section answers. |
+| `docs/03_comparator_score_definitions.md` | **Read this before comparing against SOFA or MELD-Na.** Three SOFA definitions and two MELD-Na definitions exist in the code; this states which one produced the published numbers and what changes if another is used. |
 | `AUDIT.md` | Line-by-line code audit performed before release. |
 
 ## Requirements
